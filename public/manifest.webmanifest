@@ -1,0 +1,17 @@
+{
+  "name": "Pixelboard",
+  "short_name": "Pixelboard",
+  "description": "Layered image editor for the web",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a0a0a",
+  "theme_color": "#0a0a0a",
+  "icons": [
+    {
+      "src": "https://cdn.gpteng.co/blank-app-v1.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
