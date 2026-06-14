@@ -4,6 +4,7 @@ import { MenuBar } from "@/components/editor/MenuBar";
 import { ToolPanel } from "@/components/editor/ToolPanel";
 import { RightPanels } from "@/components/editor/RightPanels";
 import { EditorCanvas } from "@/components/editor/Canvas";
+import { DropZone } from "@/components/editor/DropZone";
 import { Rulers } from "@/components/editor/Rulers";
 import { StatusBar } from "@/components/editor/StatusBar";
 import { Timeline } from "@/components/editor/Timeline";
@@ -76,6 +77,7 @@ function EditorPage() {
       <EditorProvider>
         <TooltipProvider>
           <Shortcuts />
+          <DropZone />
           <header className="h-9 bg-neutral-950 border-b border-neutral-800 flex items-center px-3 gap-2 shrink-0">
             <div className="font-semibold text-sm tracking-tight">
               <span className="text-cyan-400">Pixel</span>board

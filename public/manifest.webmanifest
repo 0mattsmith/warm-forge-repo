@@ -1,17 +1,20 @@
 {
-  "name": "Pixelboard",
+  "name": "Pixelboard — Layered Image Editor",
   "short_name": "Pixelboard",
-  "description": "Layered image editor for the web",
-  "start_url": "/",
+  "description": "Paint.NET-inspired layered image editor with animation, vector tools, and AI — installable as a PWA.",
+  "start_url": ".",
+  "scope": ".",
   "display": "standalone",
+  "orientation": "any",
   "background_color": "#0a0a0a",
   "theme_color": "#0a0a0a",
+  "categories": ["graphics", "productivity", "utilities"],
   "icons": [
     {
       "src": "https://cdn.gpteng.co/blank-app-v1.svg",
       "sizes": "any",
       "type": "image/svg+xml",
-      "purpose": "any"
+      "purpose": "any maskable"
     }
   ]
 }
