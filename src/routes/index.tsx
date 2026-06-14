@@ -9,7 +9,7 @@ import { StatusBar } from "@/components/editor/StatusBar";
 import { Timeline } from "@/components/editor/Timeline";
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -66,6 +66,11 @@ function Shortcuts() {
 }
 
 function EditorPage() {
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+  if (!mounted) {
+    return <div className="h-screen w-screen bg-neutral-950" />;
+  }
   return (
     <div className="dark h-screen w-screen overflow-hidden bg-neutral-950 text-neutral-100 flex flex-col">
       <EditorProvider>
