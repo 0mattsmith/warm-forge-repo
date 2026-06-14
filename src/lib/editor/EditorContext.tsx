@@ -75,6 +75,7 @@ interface EditorContextValue {
   addGuide: (g: Omit<Guide, "id">) => void;
   clearGuides: () => void;
   importImage: (img: HTMLImageElement, name: string) => void;
+  openImageAsDoc: (img: HTMLImageElement, name: string) => void;
   composite: () => HTMLCanvasElement;
   activeLayer: Layer | null;
 }
@@ -354,6 +355,46 @@ export function EditorProvider({ children }: { children: ReactNode }) {
     });
   }, []);
 
+  const openImageAsDoc = useCallback((img: HTMLImageElement, name: string) => {
+    const w = img.width;
+    const h = img.height;
+    const bg = makeCanvas(w, h, "#ffffff");
+    const c = makeCanvas(w, h);
+    c.getContext("2d")!.drawImage(img, 0, 0);
+    const bgLayer: Layer = {
+      id: uid(),
+      name: "Background",
+      kind: "raster",
+      visible: true,
+      locked: false,
+      opacity: 1,
+      blend: "normal",
+      canvas: bg,
+    };
+    const layer: Layer = {
+      id: uid(),
+      name,
+      kind: "raster",
+      visible: true,
+      locked: false,
+      opacity: 1,
+      blend: "normal",
+      canvas: c,
+    };
+    historyRef.current = { past: [], future: [] };
+    setState((s) => ({
+      ...s,
+      docName: name.replace(/\.[^.]+$/, "") + ".psd",
+      width: w,
+      height: h,
+      layers: [bgLayer, layer],
+      activeLayerId: layer.id,
+      pan: { x: 0, y: 0 },
+      zoom: 1,
+      selection: null,
+    }));
+  }, []);
+
   const composite = useCallback(() => {
     const out = makeCanvas(state.width, state.height);
     const ctx = out.getContext("2d")!;
@@ -395,6 +436,7 @@ export function EditorProvider({ children }: { children: ReactNode }) {
     addGuide,
     clearGuides,
     importImage,
+    openImageAsDoc,
     composite,
     activeLayer,
   };
