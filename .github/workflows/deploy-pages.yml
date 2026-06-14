@@ -1,0 +1,68 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      # If deploying to https://<user>.github.io/<repo>/ set BASE_PATH=/<repo>/
+      # Override in repo Settings → Variables → Actions if needed.
+      BASE_PATH: ${{ vars.BASE_PATH || '/' }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile || bun install
+
+      - name: Build (static)
+        env:
+          VITE_BASE_PATH: ${{ env.BASE_PATH }}
+        run: bun run build
+
+      - name: Locate static output
+        id: out
+        run: |
+          for d in .output/public dist/client dist; do
+            if [ -d "$d" ]; then echo "dir=$d" >> "$GITHUB_OUTPUT"; exit 0; fi
+          done
+          echo "No static output directory found" >&2
+          exit 1
+
+      - name: SPA fallback (404.html)
+        run: cp "${{ steps.out.outputs.dir }}/index.html" "${{ steps.out.outputs.dir }}/404.html" || true
+
+      - name: Disable Jekyll
+        run: touch "${{ steps.out.outputs.dir }}/.nojekyll"
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: ${{ steps.out.outputs.dir }}
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
