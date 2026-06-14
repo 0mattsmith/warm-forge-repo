@@ -77,6 +77,7 @@ function EditorPage() {
       <EditorProvider>
         <TooltipProvider>
           <Shortcuts />
+          <DropZone />
           <header className="h-9 bg-neutral-950 border-b border-neutral-800 flex items-center px-3 gap-2 shrink-0">
             <div className="font-semibold text-sm tracking-tight">
               <span className="text-cyan-400">Pixel</span>board
