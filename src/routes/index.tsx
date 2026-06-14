@@ -4,6 +4,7 @@ import { MenuBar } from "@/components/editor/MenuBar";
 import { ToolPanel } from "@/components/editor/ToolPanel";
 import { RightPanels } from "@/components/editor/RightPanels";
 import { EditorCanvas } from "@/components/editor/Canvas";
+import { DropZone } from "@/components/editor/DropZone";
 import { Rulers } from "@/components/editor/Rulers";
 import { StatusBar } from "@/components/editor/StatusBar";
 import { Timeline } from "@/components/editor/Timeline";
